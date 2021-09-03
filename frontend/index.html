@@ -34,13 +34,13 @@
                         </a>
                 
                         <div class="navbar-dropdown">
-                          <a class="navbar-item">
+                          <a class="navbar-item" @click="chooseCategory(1)">
                             Category 1
                           </a>
-                          <a class="navbar-item">
+                          <a class="navbar-item" @click="chooseCategory(2)">
                             Category 2
                           </a>
-                          <a class="navbar-item">
+                          <a class="navbar-item" @click="chooseCategory(3)">
                             Category 3
                           </a>
                         </div>
@@ -51,10 +51,10 @@
                     <div class="navbar-item">
                         <div class="field has-addons">
                             <p class="control">
-                              <input class="input" type="text" placeholder="Find a post">
+                              <input class="input" type="text" placeholder="Find a post" v-model="searchQuery" required>
                             </p>
                             <p class="control">
-                              <button class="button" @click="search">
+                              <button class="button" @click="search" >
                                 Search
                               </button>
                             </p>
@@ -65,43 +65,54 @@
         </nav>
         
         <section class="section">
-            <div class="container">
-                <div class="columns is-multiline">
-                    <video-card v-for="item in [...Array(6).keys()]"></video-card>
-                </div>
+            <div class="notification is-danger" :class="{'is-hidden': !showNotification}" v-cloak>
+                <button class="delete" @click="hideNotification"></button>
+                {{error}}
             </div>
-        </section>
-        <section class="section">
-            <div class="container">
-                <nav class="pagination" role="navigation" aria-label="pagination">
-                    <a class="pagination-previous">Previous</a>
-                    <a class="pagination-next">Next page</a>
-                    <ul class="pagination-list">
-                    <li>
-                        <a class="pagination-link" aria-label="Goto page 1">1</a>
-                    </li>
-                    <li>
-                        <span class="pagination-ellipsis">&hellip;</span>
-                    </li>
-                    <li>
-                        <a class="pagination-link" aria-label="Goto page 45">45</a>
-                    </li>
-                    <li>
-                        <a class="pagination-link is-current" aria-label="Page 46" aria-current="page">46</a>
-                    </li>
-                    <li>
-                        <a class="pagination-link" aria-label="Goto page 47">47</a>
-                    </li>
-                    <li>
-                        <span class="pagination-ellipsis">&hellip;</span>
-                    </li>
-                    <li>
-                        <a class="pagination-link" aria-label="Goto page 86">86</a>
-                    </li>
-                    </ul>
-                </nav>
+            <div class="container" v-if="!error && videoList.length > 0">
+                <section class="section">
+                    <div class="container">
+                        <h1 class="title" v-cloak>{{currentPage}}</h1>
+                        <div class="columns is-multiline">
+                            <video-card v-for="item in videoList"></video-card>
+                        </div>
+                    </div>
+                </section>
+                <section class="section">
+                    <div class="container">
+                        <nav class="pagination" role="navigation" aria-label="pagination">
+                            <a class="pagination-previous">Previous</a>
+                            <a class="pagination-next">Next page</a>
+                            <ul class="pagination-list">
+                            <li>
+                                <a class="pagination-link" aria-label="Goto page 1">1</a>
+                            </li>
+                            <li>
+                                <span class="pagination-ellipsis">&hellip;</span>
+                            </li>
+                            <li>
+                                <a class="pagination-link" aria-label="Goto page 45">45</a>
+                            </li>
+                            <li>
+                                <a class="pagination-link is-current" aria-label="Page 46" aria-current="page">46</a>
+                            </li>
+                            <li>
+                                <a class="pagination-link" aria-label="Goto page 47">47</a>
+                            </li>
+                            <li>
+                                <span class="pagination-ellipsis">&hellip;</span>
+                            </li>
+                            <li>
+                                <a class="pagination-link" aria-label="Goto page 86">86</a>
+                            </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </section>
             </div>
+            
         </section>
+
         <footer class="footer">
             <div class="content has-text-centered">
                 <p>
@@ -112,6 +123,7 @@
     </div>
     <script src="https://kit.fontawesome.com/758fa6fb41.js" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/vue@3.2.6"></script>
+    <script src="/js/services/api.js"></script>
     <script src="/js/components/video-card.js"></script>
     <script src="/js/main.js"></script>
 </body>
