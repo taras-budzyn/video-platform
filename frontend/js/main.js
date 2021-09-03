@@ -4,15 +4,26 @@ const VideoApp = {
             burgerMenuOpen: false,
             searchQuery: '',
             categories: [],
-            videoList: [...Array(6).keys()],
+            videoList: [],
             currentPage: 'Home',
             showNotification: false,
             error: ''
         }
     },
     mounted() {
-        ApiService.getYoutubeCategories();
-        ApiService.getPopularVideos();
+        ApiService.getYoutubeCategories().then(data => {
+            console.log(data);
+            if (data.error) {
+                this.showNotification = true;
+                this.error = data.error;
+                this.videoList = [];
+            } else {
+                this.categories = data.items;
+            }
+        });
+        ApiService.getPopularVideos().then(data => {
+            this.handleVideoResponse(data);
+        });
     },
     methods: {
         openCloseMenu() {
@@ -25,13 +36,27 @@ const VideoApp = {
         search() {
             console.log('Search!', this.searchQuery);
             this.currentPage = 'Search results for:' + this.searchQuery;
-
+            ApiService.searchVideos(this.searchQuery).then(data => {
+                this.handleVideoResponse(data);
+            });
         },
         chooseCategory(category) {
             console.log('Category!', category);
             this.currentPage = 'Category:' + category;
-            this.videoList = [...Array(6).keys()];
-            this.searchQuery = '';
+            ApiService.getVideosOfCategory(category).then(data => {
+                this.handleVideoResponse(data);
+            });
+        },
+        handleVideoResponse(data) {
+            console.log(data);
+            if (data.error) {
+                this.showNotification = true;
+                this.error = data.error;
+                this.videoList = [];
+            } else {
+                this.videoList = data.items;
+                this.searchQuery = '';
+            }
         }
     }
 }
