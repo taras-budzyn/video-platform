@@ -1,3 +1,14 @@
 [v-cloak] {
     display: none;
 }
+.pagination {
+    justify-content: center;
+}
+
+.pagination-list {
+    flex-grow: 0
+}
+
+.content {
+    overflow: hidden;
+}

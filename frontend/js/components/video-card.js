@@ -25,11 +25,12 @@ const VideoCardComponent = {
                         <span class="icon">
                             <i class="fas fa-eye"></i>
                         </span>
-                        <span>{{ video.statistics.viewCount }} Views</span>
+                        <span>{{ video.statistics.viewCount }}</span>
+                        <br>
                         <span class="icon">
                             <i class="fas fa-heart"></i>
                         </span>
-                        <span>{{ video.statistics.likeCount }} Likes</span>
+                        <span>{{ video.statistics.likeCount }}</span>
                     </span>
                     <div>
                         <time v-bind:datetime="video.snippet.publishedAt">{{ video.snippet.publishedAt }}</time>

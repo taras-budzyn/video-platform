@@ -1,6 +1,6 @@
 const ApiService = {
-    searchVideos: function (searchQuery) {
-        console.log('searchVideos');
+    searchVideos: function (searchQuery, paginationToken) {
+        console.log('searchVideos', searchQuery, paginationToken);
         return fetch("/data/search.json")
             .then(async response => {
                 if (!response.ok) {
@@ -21,8 +21,8 @@ const ApiService = {
                 return {error: errorMsg};
             });
     },
-    getVideosOfCategory: function(categoryId) {
-        console.log('getVideoOfCategory');
+    getVideosOfCategory: function(categoryId, paginationToken) {
+        console.log('getVideoOfCategory', categoryId, paginationToken);
         return fetch("/data/video-category.json")
             .then(async response => {
                 if (!response.ok) {
@@ -39,21 +39,6 @@ const ApiService = {
     getYoutubeCategories: function() {
         console.log('getYoutubeCategories');
         return fetch("/data/categories.json")
-            .then(async response => {
-                if (!response.ok) {
-                    return Promise.reject("Not 2xx response");
-                } else {
-                    return response.json();
-                }
-            })
-            .catch(errorMsg => {
-                console.error("There was an error!", errorMsg);
-                return {error: errorMsg};
-            });
-    },
-    getPopularVideos: function() {
-        console.log('getPopularVideos');
-        return fetch("/data/popular.json")
             .then(async response => {
                 if (!response.ok) {
                     return Promise.reject("Not 2xx response");

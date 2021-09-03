@@ -66,7 +66,7 @@
             <div class="container" v-if="!error && videoList.length > 0">
                 <section class="section">
                     <div class="container">
-                        <h1 class="title" v-cloak>{{currentPage}}</h1>
+                        <h1 class="title" v-cloak>{{ currentPage.title }}</h1>
                         <div class="columns is-multiline">
                             <video-card v-for="item in videoList" v-bind:video="item" v-bind:key="item.id.videoId"></video-card>
                         </div>
@@ -74,32 +74,14 @@
                 </section>
                 <section class="section">
                     <div class="container">
-                        <nav class="pagination" role="navigation" aria-label="pagination">
-                            <a class="pagination-previous">Previous</a>
-                            <a class="pagination-next">Next page</a>
+                        <nav class="pagination is-centered" role="navigation" aria-label="pagination">
+                            <a class="pagination-previous" :disabled="pagination.prevPage ? null : true" @click="prevPage()">Previous</a>
                             <ul class="pagination-list">
-                            <li>
-                                <a class="pagination-link" aria-label="Goto page 1">1</a>
-                            </li>
-                            <li>
-                                <span class="pagination-ellipsis">&hellip;</span>
-                            </li>
-                            <li>
-                                <a class="pagination-link" aria-label="Goto page 45">45</a>
-                            </li>
-                            <li>
-                                <a class="pagination-link is-current" aria-label="Page 46" aria-current="page">46</a>
-                            </li>
-                            <li>
-                                <a class="pagination-link" aria-label="Goto page 47">47</a>
-                            </li>
-                            <li>
-                                <span class="pagination-ellipsis">&hellip;</span>
-                            </li>
-                            <li>
-                                <a class="pagination-link" aria-label="Goto page 86">86</a>
-                            </li>
+                                <li>
+                                    <a class="pagination-link is-current" :aria-label="'Page ' + pagination.page" aria-current="page">{{ pagination.page }}</a>
+                                </li>
                             </ul>
+                            <a class="pagination-next" :disabled="pagination.nextPage ? null : true" @click="nextPage()">Next page</a>
                         </nav>
                     </div>
                 </section>
