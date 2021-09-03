@@ -34,14 +34,8 @@
                         </a>
                 
                         <div class="navbar-dropdown">
-                          <a class="navbar-item" @click="chooseCategory(1)">
-                            Category 1
-                          </a>
-                          <a class="navbar-item" @click="chooseCategory(2)">
-                            Category 2
-                          </a>
-                          <a class="navbar-item" @click="chooseCategory(3)">
-                            Category 3
+                          <a class="navbar-item" @click="chooseCategory(category.id)" v-for="category in categories">
+                            {{ category.snippet.title }}
                           </a>
                         </div>
                     </div>
@@ -74,7 +68,7 @@
                     <div class="container">
                         <h1 class="title" v-cloak>{{currentPage}}</h1>
                         <div class="columns is-multiline">
-                            <video-card v-for="item in videoList"></video-card>
+                            <video-card v-for="item in videoList" v-bind:video="item" v-bind:key="item.id.videoId"></video-card>
                         </div>
                     </div>
                 </section>

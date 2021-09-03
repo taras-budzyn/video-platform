@@ -1,31 +1,39 @@
 const VideoCardComponent = {
+    props: ['video'],
     template: `
         <div class="column is-3">
             <div class="card">
                 <div class="card-image">
                 <figure class="image is-4by3">
-                    <img src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image">
+                    <a :href="'https://www.youtube.com/watch?v=' + video.id" target="_blank">
+                        <img :src="video.snippet.thumbnails.medium.url">
+                    </a>
                 </figure>
                 </div>
                 <div class="card-content">
                 <div class="media">
-                    <div class="media-left">
-                    <figure class="image is-48x48">
-                        <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image">
-                    </figure>
-                    </div>
                     <div class="media-content">
-                    <p class="title is-4">John Smith</p>
-                    <p class="subtitle is-6">@johnsmith</p>
+                        <p class="title is-4"><a :href="'https://www.youtube.com/watch?v=' + video.id" target="_blank">{{ video.snippet.title }}</a></p>
+                        <p class="subtitle is-6"><a :href="'https://www.youtube.com/channel/' + video.snippet.channelId">{{ video.snippet.channelTitle }}</a></p>
                     </div>
                 </div>
             
                 <div class="content">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    Phasellus nec iaculis mauris.
-                    <a href="#">#css</a> <a href="#">#responsive</a>
-                    <br>
-                    <time datetime="2016-1-1">11:09 PM - 1 Jan 2016</time>
+                    {{ video.snippet.description.substring(0,125) + '...' }}
+                    <hr/>
+                    <span class="icon-text" v-if="video.statistics">
+                        <span class="icon">
+                            <i class="fas fa-eye"></i>
+                        </span>
+                        <span>{{ video.statistics.viewCount }} Views</span>
+                        <span class="icon">
+                            <i class="fas fa-heart"></i>
+                        </span>
+                        <span>{{ video.statistics.likeCount }} Likes</span>
+                    </span>
+                    <div>
+                        <time v-bind:datetime="video.snippet.publishedAt">{{ video.snippet.publishedAt }}</time>
+                    </div>
                 </div>
                 </div>
             </div>  

@@ -9,6 +9,13 @@ const ApiService = {
                     return response.json();
                 }
             })
+            .then(data => {
+                data.items = data.items.map(item => {
+                    item.id = item.id.videoId;
+                    return item;
+                });
+                return data;
+            })
             .catch(errorMsg => {
                 console.error("There was an error!", errorMsg);
                 return {error: errorMsg};
