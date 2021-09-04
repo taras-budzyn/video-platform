@@ -30,7 +30,6 @@ const VideoApp = {
     mounted() {
         this.isLoading = true;
         ApiService.getYoutubeCategories().then(data => {
-            console.log(data);
             if (data.error) {
                 this.showNotification = true;
                 this.error = data.error;
@@ -52,7 +51,6 @@ const VideoApp = {
             this.error = '';
         },
         search() {
-            console.log('Search!', this.searchQuery);
             this.isLoading = true;
             this.hideNotification();
             this.resetPagination();
@@ -68,7 +66,6 @@ const VideoApp = {
             });
         },
         chooseCategory(category) {
-            console.log('Category!', category);
             this.isLoading = true;
             this.hideNotification();
             this.resetPagination();
@@ -84,7 +81,6 @@ const VideoApp = {
             });
         },
         handleVideoResponse(data) {
-            console.log(data);
             this.isLoading = false;
             if (data.error) {
                 this.showNotification = true;
