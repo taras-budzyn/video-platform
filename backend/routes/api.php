@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\API\VideoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +15,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::group(['prefix' => 'videos', 'namespace' => 'App\Http\Controllers\API'], static function (): void {
+    Route::get('search', 'VideoController@searchVideos');
+    Route::get('channel/{channelId}', 'VideoController@getChannelVideos');
+    Route::get('categories', 'VideoController@getCategories');
 });

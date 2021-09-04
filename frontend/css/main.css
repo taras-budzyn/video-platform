@@ -12,3 +12,7 @@
 .content {
     overflow: hidden;
 }
+
+.hidden {
+    visibility: hidden;
+}

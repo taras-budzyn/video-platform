@@ -10,7 +10,6 @@
 </head>
 <body>
     <div id="app">
-
         <nav class="navbar" role="navigation" aria-label="main navigation">
             <div class="navbar-brand">
                 <a class="navbar-item" href="/">
@@ -45,7 +44,7 @@
                     <div class="navbar-item">
                         <div class="field has-addons">
                             <p class="control">
-                              <input class="input" type="text" placeholder="Find a post" v-model="searchQuery" required>
+                              <input class="input" type="text" placeholder="Find a post" v-model="searchQuery" v-on:keyup.enter="search" required>
                             </p>
                             <p class="control">
                               <button class="button" @click="search" >
@@ -62,6 +61,11 @@
             <div class="notification is-danger" :class="{'is-hidden': !showNotification}" v-cloak>
                 <button class="delete" @click="hideNotification"></button>
                 {{error}}
+            </div>
+            <div class="container is-flex is-justify-content-center" v-bind:class="{'hidden': !isLoading}">
+                <div class="fa-3x" >
+                    <i class="fas fa-spinner fa-spin"></i>
+                </div>
             </div>
             <div class="container" v-if="!error && videoList.length > 0">
                 <section class="section">
@@ -85,6 +89,9 @@
                         </nav>
                     </div>
                 </section>
+            </div>
+            <div class="container" v-if="!isLoading && !error && videoList.length == 0"  v-cloak>
+                Nothing found here. Sorry for that..:(
             </div>
             
         </section>

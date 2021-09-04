@@ -6,6 +6,7 @@ const VideoApp = {
                 search: 'searchVideos',
                 home: 'getVideosOfCategory'
             },
+            isLoading: false,
             burgerMenuOpen: false,
             searchQuery: '',
             categories: [],
@@ -27,6 +28,7 @@ const VideoApp = {
         }
     },
     mounted() {
+        this.isLoading = true;
         ApiService.getYoutubeCategories().then(data => {
             console.log(data);
             if (data.error) {
@@ -34,7 +36,7 @@ const VideoApp = {
                 this.error = data.error;
                 this.videoList = [];
             } else {
-                this.categories = data.items;
+                this.categories = data;
             }
         });
         ApiService.getVideosOfCategory(this.currentPage.attr.val).then(data => {
@@ -51,6 +53,8 @@ const VideoApp = {
         },
         search() {
             console.log('Search!', this.searchQuery);
+            this.isLoading = true;
+            this.hideNotification();
             this.resetPagination();
             this.currentPage = {
                 id: 'search',
@@ -65,6 +69,8 @@ const VideoApp = {
         },
         chooseCategory(category) {
             console.log('Category!', category);
+            this.isLoading = true;
+            this.hideNotification();
             this.resetPagination();
             this.currentPage = {
                 id: 'category',
@@ -79,6 +85,7 @@ const VideoApp = {
         },
         handleVideoResponse(data) {
             console.log(data);
+            this.isLoading = false;
             if (data.error) {
                 this.showNotification = true;
                 this.error = data.error;
@@ -91,12 +98,18 @@ const VideoApp = {
             }
         },
         nextPage() {
+            this.isLoading = true;
             this.pagination.page++;
-            ApiService[this.methodsMap[this.currentPage.id]](this.currentPage.attr.val, {pagToken: this.pagination.nextPage});
+            ApiService[this.methodsMap[this.currentPage.id]](this.currentPage.attr.val, this.pagination.nextPage).then(data => {
+                this.handleVideoResponse(data);
+            });
         },
         prevPage() {
+            this.isLoading = true;
             this.pagination.page--;
-            ApiService[this.methodsMap[this.currentPage.id]](this.currentPage.attr.val, {pagToken: this.pagination.prevPage});
+            ApiService[this.methodsMap[this.currentPage.id]](this.currentPage.attr.val, this.pagination.prevPage).then(data => {
+                this.handleVideoResponse(data);
+            });
         },
         resetPagination() {
             this.pagination = {
