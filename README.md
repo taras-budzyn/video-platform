@@ -2,6 +2,9 @@
 
 ## RUN [locally]
 
+* Set YOUTUBE_KEY_API at ```backend\.env``` file.
+
+* Run docker compose
 ```
 docker compose up --build
 ```
